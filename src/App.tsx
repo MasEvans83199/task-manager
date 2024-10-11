@@ -1,25 +1,33 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { Container, Typography, Box } from '@material-ui/core';
+import Header from './components/Header'
+import TaskList from './components/TaskList';
+import TaskForm from './components/TaskForm';
+import { useSupabase } from './hooks/useSupabase';
+import { supabase } from './utils/supabase';
 
 function App() {
+  const { tasks, addTask, toggleTask, deleteTask } = useSupabase(supabase);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <Header />
+      <Container maxWidth="md">
+        <Box my={4}>
+          <Typography variant="h4" component="h1" gutterBottom>
+            Task Manager
+          </Typography>
+          <TaskForm onAddTask={addTask} />
+          <Box my={4}>
+            <TaskList 
+              tasks={tasks} 
+              onToggleTask={toggleTask} 
+              onDeleteTask={deleteTask} 
+            />
+          </Box>
+        </Box>
+      </Container>
+    </>
   );
 }
 
